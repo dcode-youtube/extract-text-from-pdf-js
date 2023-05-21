@@ -16,6 +16,11 @@
     line-height: 2px;">Upload</button>
     <br>
     <br>
+
+    <div id="spinner" hidden="true" class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+
     <textarea style="width: 100%;
     resize: none;
     overflow: hidden;
@@ -35,10 +40,11 @@
         const inpFile = document.getElementById("inpFile");
         const btnUpload = document.getElementById("btnUpload");
         const resultText = document.getElementById("resultText");
+        const spinner = document.getElementById("spinner");
 
         btnUpload.addEventListener("click", () => {
             const formData = new FormData();
-
+            spinner.hidden = false;
             formData.append("pdfFile", inpFile.files[0]);
 
             fetch("/extract-text", {
@@ -50,6 +56,7 @@
             }).then(extractedText => {
                 resultText.value = extractedText.trim();
                 auto_grow();
+                spinner.hidden = true;
             });
         });
     </script>
